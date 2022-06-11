@@ -149,3 +149,29 @@ git clone from https://github.com/sywong10/cd0157-Server-Deployment-and-Containe
 
 
 
+## running app in EKS
+## endpoints in ELB
+
+$ nslookup a91feb16b26054ff29698b687dfbf376-1862089464.us-east-2.elb.amazonaws.com
+Server:		192.168.1.1
+Address:	192.168.1.1#53
+
+Non-authoritative answer:
+Name:	a91feb16b26054ff29698b687dfbf376-1862089464.us-east-2.elb.amazonaws.com
+Address: 3.134.191.227
+Name:	a91feb16b26054ff29698b687dfbf376-1862089464.us-east-2.elb.amazonaws.com
+Address: 18.221.186.36
+
+
+sallywong@Sallys$$ curl --data '{"email":"abc@xyz.com", "password":"test"}' --header "Content-Type: application/json" -X POST a91feb16b26054ff29698b687dfbf376-1862089464.us-east-2.elb.amazonaws.com/auth
+{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTYxNzY5NzUsIm5iZiI6MTY1NDk2NzM3NSwiZW1haWwiOiJhYmNAeHl6LmNvbSJ9.9YEha75iDurxMvYuwLb5BBKpr9QE-JtzMzNcoJksoqo"}
+
+
+$ TOKEN=`curl --data '{"email":"abc@xyz.com", "password":"test"}' --header "Content-Type: application/json" -X POST a91feb16b26054ff29698b687dfbf376-1862089464.us-east-2.elb.amazonaws.com/auth`
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   212  100   170  100    42   1827    451 --:--:-- --:--:-- --:--:--  2279
+
+
+$ curl --request GET 'http://a91feb16b26054ff29698b687dfbf376-1862089464.us-east-2.elb.amazonaws.com/contents' -H "Authorization: Bearer ${TOKEN}"
+{"email":"abc@xyz.com","exp":1656177740,"nbf":1654968140}

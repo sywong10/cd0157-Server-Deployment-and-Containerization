@@ -54,7 +54,7 @@ python -m pip install --upgrade pip==20.2.3
 1. Fork the <a href="https://github.com/udacity/cd0157-Server-Deployment-and-Containerization" target="_blank">Server and Deployment Containerization Github repo</a> to your Github account.
 1. Locally clone your forked version to begin working on the project.
 ```bash
-git clone https://github.com/SudKul/cd0157-Server-Deployment-and-Containerization.git
+git clone https://github.com/sywong10/cd0157-Server-Deployment-and-Containerization.git
 cd cd0157-Server-Deployment-and-Containerization/
 ```
 1. These are the files relevant for the current project:
@@ -86,3 +86,40 @@ Completing the project involves several steps:
 6. Create a CodeBuild stage which will build, test, and deploy your code
 
 For more detail about each of these steps, see the project lesson.
+
+
+
+## Running Container Locally
+
+1. git clone the repo
+
+2. 
+$ docker build -t myimage .
+$ docker image ls
+$ docker run --name myContainer --env-file=.env_file -p 80:8080 myimage
+$ docker container ls
+$ docker ps
+$ curl --request GET 'http://localhost:80'
+
+
+get token:
+
+endpoint / to get "healthy status":
+
+$ curl --request GET 'http://localhost:80/'
+
+use endpoint /auth to retrieve token:
+
+$ export TOKEN=`curl --data '{"email":"abc@xyz.com","password":"mypwd"}' --header "Content-Type: application/json" -X POST localhost:80/auth | jq -r .token`
+$ echo $TOKEN
+
+endpoint /contents:
+
+$ export TOKEN=`curl --data '{"email":"abc@xyz.com","password":"mypwd"}' --header "Content-Type: application/json" -X POST localhost:80/auth | jq -r .token`
+$ curl --request GET 'http://localhost:8080/contents' -H "Authorization: Bearer ${TOKEN}" | jq .
+
+
+
+## Container in EKS
+
+http:a91feb16b26054ff29698b687dfbf376-1862089464.us-east-2.elb.amazonaws.com

@@ -120,6 +120,32 @@ $ curl --request GET 'http://localhost:8080/contents' -H "Authorization: Bearer 
 
 
 
-## Container in EKS
+## running app in EKS
 
-http:a91feb16b26054ff29698b687dfbf376-1862089464.us-east-2.elb.amazonaws.com
+github token: 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
+
+http://a91feb16b26054ff29698b687dfbf376-1862089464.us-east-2.elb.amazonaws.com/
+
+
+## setup EKS and code pipeline
+
+git clone from https://github.com/sywong10/cd0157-Server-Deployment-and-Containerization.git
+
+1. eksctl create cluster --name simple-jwt-api --region=us-east-2
+2. aws sts get-caller-identity --query Account --output text    to get account number
+3. replace <ACCOUNT_ID> with actual account ID in trust.json
+4. aws iam create-role --role-name UdacityFlaskDeployCBKubectlRole --assume-role-policy-document file://trust.json --output text --query 'Role.Arn'
+5. aws iam put-role-policy --role-name UdacityFlaskDeployCBKubectlRole --policy-name eks-describe --policy-document file://iam-role-policy.json
+6. kubectl get -n kube-system configmap/aws-auth -o yaml > /tmp/aws-auth-patch.yml
+7. add following to aws-auth-patch.yml
+   mapRoles: |
+   - groups:
+     - system:masters
+     rolearn: arn:aws:iam::<ACCOUNT_ID>:role/UdacityFlaskDeployCBKubectlRole
+     username: build   
+8. kubectl patch configmap/aws-auth -n kube-system --patch "$(cat aws-auth-patch.yml)"
+9. aws ssm put-parameter --name JWT_SECRET --overwrite --value "myjwtsecret" --type SecureString
+10. use ci-cd-codepipeline.cfn.yml to create a cloudformation stack, github token is: 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
+
+
+

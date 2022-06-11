@@ -163,7 +163,7 @@ Name:	a91feb16b26054ff29698b687dfbf376-1862089464.us-east-2.elb.amazonaws.com
 Address: 18.221.186.36
 
 
-sallywong@Sallys$$ curl --data '{"email":"abc@xyz.com", "password":"test"}' --header "Content-Type: application/json" -X POST a91feb16b26054ff29698b687dfbf376-1862089464.us-east-2.elb.amazonaws.com/auth
+$ curl --data '{"email":"abc@xyz.com", "password":"test"}' --header "Content-Type: application/json" -X POST a91feb16b26054ff29698b687dfbf376-1862089464.us-east-2.elb.amazonaws.com/auth
 {"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTYxNzY5NzUsIm5iZiI6MTY1NDk2NzM3NSwiZW1haWwiOiJhYmNAeHl6LmNvbSJ9.9YEha75iDurxMvYuwLb5BBKpr9QE-JtzMzNcoJksoqo"}
 
 
